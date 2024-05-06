@@ -1,0 +1,112 @@
+1. 회원가입
+2. ec2
+3. 키페어 생성
+4. 인스턴스 생성(linux2)
+5. 탄력적 IP 주소 하나 생성 후 바로 연결, 프라이빗 IP 선택
+6. putty 등록 - ssh 클라이언트 - userid
+	SSH - AUTH - Credential - Key 등록
+7. 
+
+
+===========================================
+
+파이썬
+
+1. python3 --version
+2. sudo yum install python3-pip
+3. pip3 --version
+
+4.(하지말것)
+sudo mkdir /var/autobot
+
+sudo chown -R ec2-user /var/autobot
+
+sudo chmod 2775 /var/autobot
+
+find /var/autobot -type d -exec sudo chmod 2775 {} \;
+
+5. pip3 install
+ yfinance numpy pandas pyupbit
+
+============================================
+
+서버 시간 설정
+
+0. date
+1. sudo su - root
+2. sudo rm /etc/localtime
+3. sudo ln -s /usr/share/zoneinfo/Asia/Seoul /etc/localtime
+4. date
+
+5. sudo vi /etc/sysconfig/clock
+-> ZONE="Asia/Seoul"
+-> UTC=true
+
+===================================================
+
+Crontab 설치 : 새로 업뎉됨...
+
+1. sudo yum install cronie -y
+2. sudo systemctl enable crond.service
+3. sudo systemctl start crond.service
+4. sudo systemctl status crond | grep Active
+
+(optional):To verify the status of ‘cronie’:
+sudo systemctl status crond.service
+
+
+* * * * * /home/script/test.sh >> /home/script/test.log 2>&1
+
+==========================================================
+
+환경변수 세팅
+
+1. vim ~/.bashrc
+2. :$
+3. i
+4. export access=""
+5. esc
+6. :wq
+-w(저장), q(나가기)
+7. 재접속
+8. echo $(환경변수명)
+9. env
+10. tail -f test.log
+
+===============================================================
+
+주의사항
+
+1. /var/ 파일 사용 x - 충돌날수 있음
+2. 그냥 pwd 쳐서 그 경로에다가 mkdir "디렉토리명"
+3. cd pwd mkdir ll ls
+
+4. mv /var/autobot/* .
+5. ls
+6. which bash 아니면 which python3 하면 위치알려줌
+=============================================================
+
+환경변수 이용하려면
+
+1. vi start_py.sh
+이 안에서
+
+date
+source $HOME/.bashrc; /usr/bin/python3 /home/ec2-user/autobot/ubuntu_test.py
+
+
+2. ./start_py.sh (실행)
+3. chmod 700 start_py.sh
+
+
+
+
+
+
+
+
+
+
+
+
+
